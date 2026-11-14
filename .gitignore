@@ -1,0 +1,5 @@
+codegraph/
+backend/venv/
+**/node_modules/
+**/__pycache__/
+*.db

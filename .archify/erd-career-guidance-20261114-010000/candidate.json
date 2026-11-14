@@ -1,0 +1,201 @@
+{
+  "schema_version": 1,
+  "diagram_type": "erd",
+  "meta": {
+    "title": "Lược đồ CSDL Hệ thống Tư vấn Chuyển ngành (SQLite)",
+    "subtitle": "FastAPI + SQLAlchemy — career_guidance.db",
+    "locale": "vi",
+    "output": ".archify/erd-career-guidance-20261114-010000/erd-career-guidance.html",
+    "quality_profile": "standard",
+    "views": [
+      {
+        "id": "identity",
+        "label": "Người dùng",
+        "focus": ["users"],
+        "note": "Hồ sơ và phiên tư vấn đều có thể gắn (hoặc không) về một người dùng."
+      },
+      {
+        "id": "profile",
+        "label": "Hồ sơ sinh viên",
+        "focus": ["users", "student_profiles"],
+        "note": "Hồ sơ 4 bước, kèm các cột cũ giữ để tương thích."
+      },
+      {
+        "id": "chat",
+        "label": "Phiên tư vấn & chat",
+        "focus": ["consultation_sessions", "chat_messages"],
+        "note": "chat_messages bắt buộc gắn một phiên; hội thoại lưu vết đa lượt."
+      },
+      {
+        "id": "knowledge",
+        "label": "Tra cứu ngành học",
+        "focus": ["majors_info"],
+        "note": "Bảng kiến thức độc lập, không có khoá ngoại về bảng khác."
+      }
+    ]
+  },
+  "layout": {
+    "mode": "grid",
+    "gapY": 38,
+    "gapX": 72
+  },
+  "entities": [
+    {
+      "id": "users",
+      "label": "users",
+      "tag": "tài khoản",
+      "row": 0,
+      "col": 0,
+      "attributes": [
+        { "name": "id", "type": "INTEGER", "key": "pk" },
+        { "name": "email", "type": "VARCHAR(255)", "key": "uk" },
+        { "name": "full_name", "type": "VARCHAR(255)" },
+        { "name": "hashed_password", "type": "VARCHAR(255)" },
+        { "name": "role", "type": "VARCHAR(50)" },
+        { "name": "created_at", "type": "DATETIME" }
+      ]
+    },
+    {
+      "id": "student_profiles",
+      "label": "student_profiles",
+      "tag": "hồ sơ",
+      "row": 1,
+      "col": 0,
+      "width": 290,
+      "attributes": [
+        { "name": "id", "type": "INTEGER", "key": "pk" },
+        { "name": "user_id", "type": "INTEGER", "key": "fk", "references": "users.id" },
+        { "name": "user_group", "type": "VARCHAR(255)" },
+        { "name": "current_education_major", "type": "VARCHAR(255)" },
+        { "name": "known_skills", "type": "TEXT" },
+        { "name": "experience_years", "type": "VARCHAR(100)" },
+        { "name": "target_career", "type": "VARCHAR(255)" },
+        { "name": "expected_salary", "type": "VARCHAR(100)" },
+        { "name": "learning_time", "type": "VARCHAR(100)" },
+        { "name": "primary_goal", "type": "VARCHAR(255)" },
+        { "name": "major_combinations", "type": "VARCHAR(255)" },
+        { "name": "academic_performance", "type": "VARCHAR(100)" },
+        { "name": "custom_subject_notes", "type": "TEXT" },
+        { "name": "preferred_environment", "type": "VARCHAR(255)" },
+        { "name": "introvert_scale", "type": "INTEGER" },
+        { "name": "preferred_locations", "type": "VARCHAR(255)" },
+        { "name": "tuition_budget", "type": "VARCHAR(255)" },
+        { "name": "top_priority", "type": "VARCHAR(255)" },
+        { "name": "raw_json", "type": "TEXT" },
+        { "name": "created_at", "type": "DATETIME" }
+      ]
+    },
+    {
+      "id": "consultation_sessions",
+      "label": "consultation_sessions",
+      "tag": "tư vấn",
+      "row": 0,
+      "col": 1,
+      "width": 300,
+      "attributes": [
+        { "name": "id", "type": "INTEGER", "key": "pk" },
+        { "name": "user_id", "type": "INTEGER", "key": "fk", "references": "users.id" },
+        { "name": "profile_id", "type": "INTEGER", "key": "fk", "references": "student_profiles.id" },
+        { "name": "title", "type": "VARCHAR(255)" },
+        { "name": "job_roles_json", "type": "TEXT" },
+        { "name": "top_majors_json", "type": "TEXT" },
+        { "name": "overview_analysis", "type": "TEXT" },
+        { "name": "created_at", "type": "DATETIME" }
+      ]
+    },
+    {
+      "id": "chat_messages",
+      "label": "chat_messages",
+      "tag": "tư vấn",
+      "row": 1,
+      "col": 1,
+      "width": 300,
+      "attributes": [
+        { "name": "id", "type": "INTEGER", "key": "pk" },
+        { "name": "session_id", "type": "INTEGER", "key": "fk", "references": "consultation_sessions.id" },
+        { "name": "role", "type": "VARCHAR(50)" },
+        { "name": "content", "type": "TEXT" },
+        { "name": "mode", "type": "VARCHAR(50)" },
+        { "name": "created_at", "type": "DATETIME" }
+      ]
+    },
+    {
+      "id": "majors_info",
+      "label": "majors_info",
+      "tag": "kiến thức",
+      "row": 0,
+      "col": 2,
+      "attributes": [
+        { "name": "id", "type": "INTEGER", "key": "pk" },
+        { "name": "code", "type": "VARCHAR(50)", "key": "uk" },
+        { "name": "name", "type": "VARCHAR(255)" },
+        { "name": "category", "type": "VARCHAR(100)" },
+        { "name": "combinations", "type": "VARCHAR(100)" },
+        { "name": "benchmark_score", "type": "VARCHAR(50)" },
+        { "name": "avg_tuition", "type": "VARCHAR(100)" },
+        { "name": "starting_salary", "type": "VARCHAR(100)" },
+        { "name": "description", "type": "TEXT" },
+        { "name": "curriculum_highlights", "type": "TEXT" },
+        { "name": "career_opportunities", "type": "TEXT" },
+        { "name": "roleplay_scenario", "type": "TEXT" }
+      ]
+    }
+  ],
+  "relationships": [
+    {
+      "id": "profiles_user",
+      "from": "student_profiles",
+      "to": "users",
+      "label": "thuộc về",
+      "fromCardinality": "many",
+      "fromOptional": true,
+      "toCardinality": "one"
+    },
+    {
+      "id": "sessions_user",
+      "from": "consultation_sessions",
+      "to": "users",
+      "label": "mở bởi",
+      "fromCardinality": "many",
+      "fromOptional": true,
+      "toCardinality": "one"
+    },
+    {
+      "id": "sessions_profile",
+      "from": "consultation_sessions",
+      "to": "student_profiles",
+      "label": "dựa trên hồ sơ",
+      "fromCardinality": "many",
+      "fromOptional": true,
+      "toCardinality": "one"
+    },
+    {
+      "id": "messages_session",
+      "from": "chat_messages",
+      "to": "consultation_sessions",
+      "label": "gửi trong",
+      "fromCardinality": "many",
+      "toCardinality": "one"
+    }
+  ],
+  "cards": [
+    {
+      "dot": "cyan",
+      "title": "Khoá & ràng buộc",
+      "items": [
+        "email của users và code của majors_info là duy nhất (unique).",
+        "chat_messages.session_id là NOT NULL: một tin nhắn luôn nằm trong một phiên.",
+        "user_id / profile_id cho phép NULL — người dùng ẩn danh vẫn tạo được hồ sơ và phiên tư vấn."
+      ]
+    },
+    {
+      "dot": "amber",
+      "title": "Xoá theo cấp",
+      "items": [
+        "Xoá user xoá theo cascade toàn bộ hồ sơ và phiên tư vấn của họ.",
+        "Xoá một phiên xoá theo cascade toàn bộ tin nhắn trong phiên đó.",
+        "majors_info là bảng tra cứu độc lập, không có khoá ngoại."
+      ]
+    }
+  ]
+}

@@ -1,0 +1,17 @@
+{
+  "schemaVersion": 1,
+  "receiptId": "a22da05f-8b92-4fab-84e3-3ba462fcd834",
+  "status": "current",
+  "command": "deliver",
+  "type": "erd",
+  "input": "E:\\DACN\\.archify\\erd-career-guidance-20261114-010000\\candidate.json",
+  "output": "E:\\DACN\\.archify\\erd-career-guidance-20261114-010000\\erd-career-guidance.html",
+  "specification": {
+    "sha256": "113af306a9cb569793b3d3537f4f0109a47d14f88b2288082b5599d15f2bef74",
+    "bytes": 7126
+  },
+  "artifact": {
+    "sha256": "aeda0be284b3ce0ab0b632439d8b8cd40c01cae6564e427398107046702b676c",
+    "bytes": 867893
+  }
+}

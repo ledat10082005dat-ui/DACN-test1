@@ -1,0 +1,1360 @@
+<!DOCTYPE html>
+<html lang="vi" class="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Career AI Advisor - Cố Vấn Định Hướng &amp; Chuyển Ngành Thực Chiến</title>
+  <!-- Google Fonts: Plus Jakarta Sans & Outfit -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800;900&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Chart.js CDN for Admin Dashboard -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <!-- Marked for markdown parsing -->
+  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['"Plus Jakarta Sans"', 'system-ui', 'sans-serif'],
+            heading: ['"Outfit"', 'sans-serif'],
+          },
+          colors: {
+            cyber: {
+              bg: '#080c16',
+              surface: '#0f172a',
+              card: 'rgba(15, 23, 42, 0.75)',
+              border: 'rgba(51, 65, 85, 0.7)',
+              accent: '#6366f1',
+              neon: '#06b6d4',
+              glow: '#8b5cf6',
+            }
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    body {
+      font-family: 'Plus Jakarta Sans', system-ui, sans-serif;
+    }
+    h1, h2, h3, h4, .font-heading {
+      font-family: 'Outfit', sans-serif;
+    }
+    /* Futuristic Deep Neon Aurora Background */
+    .cyber-bg {
+      background-color: #070b14;
+      background-image: 
+        radial-gradient(at 0% 0%, rgba(99, 102, 241, 0.22) 0px, transparent 55%),
+        radial-gradient(at 100% 10%, rgba(6, 182, 212, 0.18) 0px, transparent 50%),
+        radial-gradient(at 50% 60%, rgba(139, 92, 246, 0.12) 0px, transparent 60%),
+        radial-gradient(at 80% 100%, rgba(236, 72, 153, 0.14) 0px, transparent 50%);
+      background-attachment: fixed;
+    }
+    .glass-dark {
+      background: rgba(15, 23, 42, 0.75);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border: 1px solid rgba(148, 163, 184, 0.12);
+    }
+    .glass-header {
+      background: rgba(8, 12, 22, 0.85);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border-bottom: 1px solid rgba(51, 65, 85, 0.5);
+    }
+    .neon-glow-btn {
+      box-shadow: 0 0 20px -3px rgba(99, 102, 241, 0.5);
+      transition: all 0.3s ease;
+    }
+    .neon-glow-btn:hover {
+      box-shadow: 0 0 30px 0px rgba(99, 102, 241, 0.75);
+      transform: translateY(-1px);
+    }
+    .card-neon-hover {
+      transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .card-neon-hover:hover {
+      border-color: rgba(99, 102, 241, 0.6);
+      transform: translateY(-2px);
+      box-shadow: 0 10px 30px -10px rgba(99, 102, 241, 0.3);
+    }
+    .custom-scrollbar::-webkit-scrollbar {
+      width: 6px;
+    }
+    .custom-scrollbar::-webkit-scrollbar-track {
+      background: rgba(15, 23, 42, 0.6);
+    }
+    .custom-scrollbar::-webkit-scrollbar-thumb {
+      background: #334155;
+      border-radius: 4px;
+    }
+    .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+      background: #6366f1;
+    }
+    .neon-badge {
+      box-shadow: 0 0 12px rgba(6, 182, 212, 0.3);
+    }
+    /* Prose styling for dark markdown */
+    .prose-dark {
+      color: #cbd5e1;
+    }
+    .prose-dark strong {
+      color: #ffffff;
+    }
+    .prose-dark p {
+      margin-top: 0.35rem;
+      margin-bottom: 0.35rem;
+    }
+    .prose-dark ul, .prose-dark ol {
+      margin-top: 0.35rem;
+      margin-bottom: 0.35rem;
+      padding-left: 1.25rem;
+    }
+    .prose-dark li {
+      margin-top: 0.15rem;
+      margin-bottom: 0.15rem;
+    }
+  </style>
+</head>
+<body class="cyber-bg text-slate-100 min-h-screen flex flex-col antialiased selection:bg-indigo-600 selection:text-white">
+
+  <!-- HEADER NAVBAR (Tràn viền, Logo nằm sát góc ngoài cùng bên trái) -->
+  <header class="sticky top-0 z-50 glass-header shadow-lg shadow-black/20">
+    <div class="w-full px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+      
+      <!-- LOGO BÊN NGOÀI CÙNG TRÁI: Bấm vào là reset về trạng thái ban đầu -->
+      <div 
+        class="flex items-center space-x-3.5 cursor-pointer group select-none" 
+        onclick="resetToInitialState()" 
+        title="Bấm để quay về trạng thái bắt đầu"
+      >
+        <div class="relative flex items-center justify-center">
+          <div class="absolute -inset-1 bg-gradient-to-r from-cyan-500 via-indigo-600 to-purple-600 rounded-2xl blur-sm opacity-70 group-hover:opacity-100 transition duration-300"></div>
+          <div class="relative w-10 h-10 rounded-2xl bg-slate-950 flex items-center justify-center text-white font-extrabold text-lg border border-indigo-400/40">
+            <span class="bg-clip-text text-transparent bg-gradient-to-tr from-cyan-400 to-indigo-400">AI</span>
+          </div>
+        </div>
+        <div class="flex flex-col">
+          <div class="flex items-center gap-2">
+            <h1 class="text-base sm:text-lg font-extrabold font-heading tracking-tight text-white leading-tight">
+              Career <span class="bg-clip-text text-transparent bg-gradient-to-r from-cyan-400 via-indigo-400 to-purple-400">AI Advisor</span>
+            </h1>
+            <span class="px-2 py-0.5 text-[10px] font-extrabold uppercase tracking-wider bg-gradient-to-r from-indigo-500/20 to-purple-500/20 text-cyan-300 border border-cyan-500/30 rounded-md neon-badge">
+              NEXT GEN
+            </span>
+          </div>
+          <p class="text-[11px] text-slate-400 font-medium">Định Hướng Việc Làm &amp; Chuyển Ngành Thực Chiến</p>
+        </div>
+      </div>
+
+      <!-- NAV BUTTONS BÊN PHẢI -->
+      <nav class="flex items-center space-x-2 sm:space-x-3">
+        <button id="nav-btn-form" onclick="switchView('form')" class="px-3.5 py-1.5 rounded-xl text-xs sm:text-sm font-bold text-cyan-300 bg-cyan-950/60 border border-cyan-500/40 transition shadow-xs hover:bg-cyan-900/60">
+          📝 Khảo Sát
+        </button>
+        <button id="nav-btn-chat" onclick="switchView('chat')" class="hidden px-3.5 py-1.5 rounded-xl text-xs sm:text-sm font-semibold text-slate-300 hover:text-cyan-300 hover:bg-slate-800/60 border border-transparent transition">
+          💬 Cố Vấn AI
+        </button>
+        <button id="nav-btn-admin" onclick="switchView('admin')" class="px-3.5 py-1.5 rounded-xl text-xs sm:text-sm font-semibold text-slate-300 hover:text-cyan-300 hover:bg-slate-800/60 border border-transparent transition">
+          📊 Admin
+        </button>
+        <button onclick="toggleKeyModal()" id="key-nav-btn" class="px-3.5 py-1.5 rounded-xl text-xs font-bold text-amber-300 bg-amber-950/40 hover:bg-amber-900/50 border border-amber-500/30 transition shadow-xs">
+          🔑 Gemini API
+        </button>
+        <button id="auth-btn" onclick="toggleAuthModal()" class="px-4 py-1.5 rounded-xl text-xs font-bold text-white bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-500 hover:to-purple-500 transition shadow-md shadow-indigo-600/30">
+          Đăng Nhập
+        </button>
+      </nav>
+    </div>
+  </header>
+
+  <!-- MAIN CONTAINER -->
+  <main class="flex-1 max-w-7xl w-full mx-auto p-4 sm:p-6 lg:p-8">
+
+    <!-- ================= VIEW 1: STEPPER FORM 4 BƯỚC ================= -->
+    <div id="view-form" class="max-w-3xl mx-auto">
+      <div class="glass-dark rounded-3xl shadow-2xl shadow-indigo-950/60 border border-slate-700/60 p-6 sm:p-10 card-neon-hover">
+        
+        <!-- Step Progress Header -->
+        <div class="mb-8">
+          <div class="flex items-center justify-between mb-3">
+            <span class="inline-flex items-center gap-2 px-3 py-1 text-xs font-bold uppercase tracking-wider text-cyan-300 bg-cyan-950/60 border border-cyan-500/30 rounded-full" id="step-badge">
+              <span class="w-2 h-2 rounded-full bg-cyan-400 animate-ping"></span>
+              Bước 1 / 4
+            </span>
+            <span class="text-xs text-slate-400 font-semibold" id="step-title-hint">Phân loại đối tượng &amp; Hiện trạng</span>
+          </div>
+          <div class="w-full bg-slate-900/90 h-2.5 rounded-full overflow-hidden p-0.5 border border-slate-700/50">
+            <div id="progress-bar" class="bg-gradient-to-r from-cyan-500 via-indigo-500 to-purple-500 h-full rounded-full transition-all duration-300 shadow-md shadow-cyan-500/50"></div>
+          </div>
+        </div>
+
+        <form id="guidance-form" onsubmit="event.preventDefault()">
+          
+          <!-- BƯỚC 1: PHÂN LOẠI ĐỐI TƯỢNG & HIỆN TRẠNG -->
+          <div id="form-step-1" class="space-y-6">
+            <div>
+              <h2 class="text-xl sm:text-2xl font-extrabold font-heading text-white tracking-tight">Bước 1: Phân loại đối tượng &amp; Hiện trạng</h2>
+              <p class="text-sm text-slate-400 mt-1">Giúp AI xác định chính xác mục tiêu của bạn để đề xuất phương án tối ưu.</p>
+            </div>
+
+            <div>
+              <label class="block text-sm font-bold text-slate-300 mb-2.5">Bạn thuộc nhóm đối tượng nào?</label>
+              <div class="space-y-2.5">
+                <label class="flex items-center p-4 bg-slate-900/60 border border-slate-700/70 rounded-2xl cursor-pointer hover:bg-slate-800/80 hover:border-indigo-500/60 transition-all card-neon-hover">
+                  <input type="radio" name="user_group" value="Sinh viên năm cuối / Mới tốt nghiệp" checked class="w-4 h-4 text-indigo-500 focus:ring-indigo-400 bg-slate-800 border-slate-600">
+                  <div class="ml-3.5">
+                    <span class="text-sm font-bold text-white block">🎓 Sinh viên năm cuối / Mới tốt nghiệp</span>
+                    <span class="text-xs text-slate-400">Chuẩn bị đi làm, cần tối ưu CV Fresher/Intern và tìm việc thực tế đầu đời.</span>
+                  </div>
+                </label>
+                <label class="flex items-center p-4 bg-slate-900/60 border border-slate-700/70 rounded-2xl cursor-pointer hover:bg-slate-800/80 hover:border-indigo-500/60 transition-all card-neon-hover">
+                  <input type="radio" name="user_group" value="Đang thất nghiệp / Tìm việc gấp" class="w-4 h-4 text-indigo-500 focus:ring-indigo-400 bg-slate-800 border-slate-600">
+                  <div class="ml-3.5">
+                    <span class="text-sm font-bold text-white block">⚡ Đang thất nghiệp / Cần tìm việc làm gấp</span>
+                    <span class="text-xs text-slate-400">Ưu tiên các vị trí tuyển nhanh, học nhanh, bắt đầu đi làm sớm để có thu nhập.</span>
+                  </div>
+                </label>
+                <label class="flex items-center p-4 bg-slate-900/60 border border-slate-700/70 rounded-2xl cursor-pointer hover:bg-slate-800/80 hover:border-indigo-500/60 transition-all card-neon-hover">
+                  <input type="radio" name="user_group" value="Đang đi làm muốn chuyển sang ngành khác (Career Switcher)" class="w-4 h-4 text-indigo-500 focus:ring-indigo-400 bg-slate-800 border-slate-600">
+                  <div class="ml-3.5">
+                    <span class="text-sm font-bold text-white block">🔄 Đang đi làm nhưng muốn chuyển sang ngành khác (Career Switcher)</span>
+                    <span class="text-xs text-slate-400">Muốn đổi ngành, cần phân tích kỹ năng chuyển đổi và lập lộ trình học bù đắp.</span>
+                  </div>
+                </label>
+              </div>
+            </div>
+
+            <div>
+              <label class="block text-sm font-bold text-slate-300 mb-2">Trình độ học vấn &amp; Chuyên ngành hiện tại của bạn:</label>
+              <input 
+                type="text" 
+                id="education-major" 
+                placeholder="Ví dụ: Đại học - Ngành Kế toán, Cao đẳng - Ngôn ngữ Anh, Quản trị kinh doanh..." 
+                value="Đại học - Ngành Kế toán"
+                class="w-full px-4 py-3.5 bg-slate-900/80 border border-slate-700 rounded-2xl text-sm text-white placeholder-slate-500 focus:outline-none focus:border-cyan-400 focus:ring-2 focus:ring-cyan-500/20 transition shadow-inner"
+                required
+              >
+              <p class="text-xs text-cyan-400/80 mt-2 flex items-center gap-1.5 font-medium">
+                <span>💡</span> AI sẽ phân tích các kỹ năng có thể kế thừa (Transferable Skills) từ ngành này của bạn.
+              </p>
+            </div>
+          </div>
+
+          <!-- BƯỚC 2: HỒ SƠ KỸ NĂNG & KINH NGHIỆM (SKILLSET) -->
+          <div id="form-step-2" class="space-y-6 hidden">
+            <div>
+              <h2 class="text-xl sm:text-2xl font-extrabold font-heading text-white tracking-tight">Bước 2: Hồ sơ kỹ năng &amp; Kinh nghiệm (Skillset)</h2>
+              <p class="text-sm text-slate-400 mt-1">Chọn những kỹ năng bạn đã từng học hoặc áp dụng vào công việc/học tập.</p>
+            </div>
+
+            <div>
+              <label class="block text-sm font-bold text-slate-300 mb-2.5">Các kỹ năng / Công cụ bạn đã biết (chọn nhiều):</label>
+              <div class="grid grid-cols-2 sm:grid-cols-3 gap-2.5" id="skill-tags">
+                <label class="flex items-center p-3.5 bg-slate-900/60 border border-slate-700/70 rounded-2xl cursor-pointer hover:bg-slate-800/80 hover:border-cyan-500/50 transition-all card-neon-hover">
+                  <input type="checkbox" name="skills" value="Tiếng Anh giao tiếp" checked class="w-4 h-4 text-cyan-500 bg-slate-800 border-slate-600 rounded">
+                  <span class="ml-2.5 text-xs font-semibold text-slate-200">🗣️ Tiếng Anh giao tiếp</span>
+                </label>
+                <label class="flex items-center p-3.5 bg-slate-900/60 border border-slate-700/70 rounded-2xl cursor-pointer hover:bg-slate-800/80 hover:border-cyan-500/50 transition-all card-neon-hover">
+                  <input type="checkbox" name="skills" value="Excel" checked class="w-4 h-4 text-cyan-500 bg-slate-800 border-slate-600 rounded">
+                  <span class="ml-2.5 text-xs font-semibold text-slate-200">📊 Excel / Bảng tính</span>
+                </label>
+                <label class="flex items-center p-3.5 bg-slate-900/60 border border-slate-700/70 rounded-2xl cursor-pointer hover:bg-slate-800/80 hover:border-cyan-500/50 transition-all card-neon-hover">
+                  <input type="checkbox" name="skills" value="Tư vấn bán hàng" class="w-4 h-4 text-cyan-500 bg-slate-800 border-slate-600 rounded">
+                  <span class="ml-2.5 text-xs font-semibold text-slate-200">🤝 Tư vấn bán hàng / CSKH</span>
+                </label>
+                <label class="flex items-center p-3.5 bg-slate-900/60 border border-slate-700/70 rounded-2xl cursor-pointer hover:bg-slate-800/80 hover:border-cyan-500/50 transition-all card-neon-hover">
+                  <input type="checkbox" name="skills" value="Lập trình Python" class="w-4 h-4 text-cyan-500 bg-slate-800 border-slate-600 rounded">
+                  <span class="ml-2.5 text-xs font-semibold text-slate-200">🐍 Lập trình Python</span>
+                </label>
+                <label class="flex items-center p-3.5 border border-slate-700/70 rounded-2xl cursor-pointer hover:bg-slate-800/80 hover:border-cyan-500/50 transition-all card-neon-hover">
+                  <input type="checkbox" name="skills" value="Thiết kế Photoshop" class="w-4 h-4 text-cyan-500 bg-slate-800 border-slate-600 rounded">
+                  <span class="ml-2.5 text-xs font-semibold text-slate-200">🎨 Photoshop / Canva</span>
+                </label>
+                <label class="flex items-center p-3.5 bg-slate-900/60 border border-slate-700/70 rounded-2xl cursor-pointer hover:bg-slate-800/80 hover:border-cyan-500/50 transition-all card-neon-hover">
+                  <input type="checkbox" name="skills" value="SQL cơ bản" class="w-4 h-4 text-cyan-500 bg-slate-800 border-slate-600 rounded">
+                  <span class="ml-2.5 text-xs font-semibold text-slate-200">💾 SQL cơ bản</span>
+                </label>
+                <label class="flex items-center p-3.5 bg-slate-900/60 border border-slate-700/70 rounded-2xl cursor-pointer hover:bg-slate-800/80 hover:border-cyan-500/50 transition-all card-neon-hover">
+                  <input type="checkbox" name="skills" value="Viết lách / Content" class="w-4 h-4 text-cyan-500 bg-slate-800 border-slate-600 rounded">
+                  <span class="ml-2.5 text-xs font-semibold text-slate-200">✍️ Viết lách &amp; Content</span>
+                </label>
+                <label class="flex items-center p-3.5 bg-slate-900/60 border border-slate-700/70 rounded-2xl cursor-pointer hover:bg-slate-800/80 hover:border-cyan-500/50 transition-all card-neon-hover">
+                  <input type="checkbox" name="skills" value="Kế toán / Báo cáo tài chính" checked class="w-4 h-4 text-cyan-500 bg-slate-800 border-slate-600 rounded">
+                  <span class="ml-2.5 text-xs font-semibold text-slate-200">💰 Kế toán / Số liệu</span>
+                </label>
+                <label class="flex items-center p-3.5 bg-slate-900/60 border border-slate-700/70 rounded-2xl cursor-pointer hover:bg-slate-800/80 hover:border-cyan-500/50 transition-all card-neon-hover">
+                  <input type="checkbox" name="skills" value="Giao tiếp & Thuyết trình" class="w-4 h-4 text-cyan-500 bg-slate-800 border-slate-600 rounded">
+                  <span class="ml-2.5 text-xs font-semibold text-slate-200">🎤 Thuyết trình &amp; Giao tiếp</span>
+                </label>
+              </div>
+
+              <!-- Tự nhập kỹ năng khác -->
+              <div class="mt-3">
+                <input 
+                  type="text" 
+                  id="custom-skills" 
+                  placeholder="Nhập thêm kỹ năng khác (ví dụ: Power BI, Jira, HTML/CSS, TikTok Ads, Figma...)" 
+                  class="w-full px-4 py-3 bg-slate-900/80 border border-slate-700 rounded-2xl text-sm text-white placeholder-slate-500 focus:outline-none focus:border-cyan-400 focus:ring-2 focus:ring-cyan-500/20 transition shadow-inner"
+                >
+              </div>
+            </div>
+
+            <div>
+              <label class="block text-sm font-bold text-slate-300 mb-2.5">Số năm kinh nghiệm làm việc đã có:</label>
+              <div class="grid grid-cols-2 sm:grid-cols-4 gap-2.5">
+                <label class="flex items-center p-3.5 bg-slate-900/60 border border-slate-700/70 rounded-2xl cursor-pointer hover:bg-slate-800/80 hover:border-indigo-500/50 transition-all card-neon-hover">
+                  <input type="radio" name="experience" value="Chưa có kinh nghiệm / Mới ra trường" class="w-4 h-4 text-indigo-500 bg-slate-800 border-slate-600">
+                  <span class="ml-2 text-xs font-bold text-slate-200">Mới ra trường</span>
+                </label>
+                <label class="flex items-center p-3.5 bg-slate-900/60 border border-slate-700/70 rounded-2xl cursor-pointer hover:bg-slate-800/80 hover:border-indigo-500/50 transition-all card-neon-hover">
+                  <input type="radio" name="experience" value="Dưới 1 năm" class="w-4 h-4 text-indigo-500 bg-slate-800 border-slate-600">
+                  <span class="ml-2 text-xs font-bold text-slate-200">Dưới 1 năm</span>
+                </label>
+                <label class="flex items-center p-3.5 bg-slate-900/60 border border-slate-700/70 rounded-2xl cursor-pointer hover:bg-slate-800/80 hover:border-indigo-500/50 transition-all card-neon-hover">
+                  <input type="radio" name="experience" value="1 - 3 năm" checked class="w-4 h-4 text-indigo-500 bg-slate-800 border-slate-600">
+                  <span class="ml-2 text-xs font-bold text-slate-200">1 - 3 năm</span>
+                </label>
+                <label class="flex items-center p-3.5 bg-slate-900/60 border border-slate-700/70 rounded-2xl cursor-pointer hover:bg-slate-800/80 hover:border-indigo-500/50 transition-all card-neon-hover">
+                  <input type="radio" name="experience" value="Trên 3 năm" class="w-4 h-4 text-indigo-500 bg-slate-800 border-slate-600">
+                  <span class="ml-2 text-xs font-bold text-slate-200">Trên 3 năm</span>
+                </label>
+              </div>
+            </div>
+          </div>
+
+          <!-- BƯỚC 3: KỲ VỌNG NGHỀ NGHIỆP MỚI -->
+          <div id="form-step-3" class="space-y-6 hidden">
+            <div>
+              <h2 class="text-xl sm:text-2xl font-extrabold font-heading text-white tracking-tight">Bước 3: Kỳ vọng nghề nghiệp mới</h2>
+              <p class="text-sm text-slate-400 mt-1">Xác định hướng đi bạn muốn đạt tới và mức thu nhập mục tiêu.</p>
+            </div>
+
+            <div>
+              <label class="block text-sm font-bold text-slate-300 mb-2.5">Hướng đi bạn đang quan tâm muốn hướng tới:</label>
+              <div class="space-y-2">
+                <label class="flex items-center p-3.5 bg-slate-900/60 border border-slate-700/70 rounded-2xl cursor-pointer hover:bg-slate-800/80 hover:border-cyan-500/50 transition-all card-neon-hover">
+                  <input type="radio" name="target_career" value="Phân tích dữ liệu (Data / BI Analyst)" checked class="w-4 h-4 text-cyan-500 bg-slate-800 border-slate-600">
+                  <span class="ml-3 text-sm font-bold text-slate-100">📈 Phân tích dữ liệu (Data Analyst / Business Intelligence)</span>
+                </label>
+                <label class="flex items-center p-3.5 bg-slate-900/60 border border-slate-700/70 rounded-2xl cursor-pointer hover:bg-slate-800/80 hover:border-cyan-500/50 transition-all card-neon-hover">
+                  <input type="radio" name="target_career" value="Kiểm thử phần mềm (Tester QA/QC)" class="w-4 h-4 text-cyan-500 bg-slate-800 border-slate-600">
+                  <span class="ml-3 text-sm font-bold text-slate-100">🔍 Kiểm thử phần mềm (Manual Tester / QA/QC)</span>
+                </label>
+                <label class="flex items-center p-3.5 bg-slate-900/60 border border-slate-700/70 rounded-2xl cursor-pointer hover:bg-slate-800/80 hover:border-cyan-500/50 transition-all card-neon-hover">
+                  <input type="radio" name="target_career" value="Công nghệ thông tin (Lập trình Web/App)" class="w-4 h-4 text-cyan-500 bg-slate-800 border-slate-600">
+                  <span class="ml-3 text-sm font-bold text-slate-100">💻 Công nghệ thông tin (Lập trình Web / Mobile App)</span>
+                </label>
+                <label class="flex items-center p-3.5 bg-slate-900/60 border border-slate-700/70 rounded-2xl cursor-pointer hover:bg-slate-800/80 hover:border-cyan-500/50 transition-all card-neon-hover">
+                  <input type="radio" name="target_career" value="Chuyên viên phân tích nghiệp vụ (IT BA)" class="w-4 h-4 text-cyan-500 bg-slate-800 border-slate-600">
+                  <span class="ml-3 text-sm font-bold text-slate-100">📋 Chuyên viên phân tích nghiệp vụ (IT Business Analyst)</span>
+                </label>
+                <label class="flex items-center p-3.5 bg-slate-900/60 border border-slate-700/70 rounded-2xl cursor-pointer hover:bg-slate-800/80 hover:border-cyan-500/50 transition-all card-neon-hover">
+                  <input type="radio" name="target_career" value="Digital Marketing & Truyền thông" class="w-4 h-4 text-cyan-500 bg-slate-800 border-slate-600">
+                  <span class="ml-3 text-sm font-bold text-slate-100">🎯 Digital Marketing, SEO &amp; Chạy Quảng Cáo</span>
+                </label>
+                <label class="flex items-center p-3.5 bg-slate-900/60 border border-slate-700/70 rounded-2xl cursor-pointer hover:bg-slate-800/80 hover:border-cyan-500/50 transition-all card-neon-hover">
+                  <input type="radio" name="target_career" value="Nhân sự & Tuyển dụng (IT Recruiter)" class="w-4 h-4 text-cyan-500 bg-slate-800 border-slate-600">
+                  <span class="ml-3 text-sm font-bold text-slate-100">👥 Nhân sự &amp; Tuyển dụng IT (IT Recruiter / Headhunter)</span>
+                </label>
+                <label class="flex items-center p-3.5 bg-slate-900/60 border border-slate-700/70 rounded-2xl cursor-pointer hover:bg-slate-800/80 hover:border-cyan-500/50 transition-all card-neon-hover">
+                  <input type="radio" name="target_career" value="Chăm sóc khách hàng & Bán hàng B2B" class="w-4 h-4 text-cyan-500 bg-slate-800 border-slate-600">
+                  <span class="ml-3 text-sm font-bold text-slate-100">💼 Chăm sóc khách hàng &amp; Bán giải pháp B2B (Tech Sales)</span>
+                </label>
+              </div>
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <div>
+                <label class="block text-sm font-bold text-slate-300 mb-2">Mức lương mong muốn / tháng:</label>
+                <div class="space-y-2">
+                  <label class="flex items-center p-3 bg-slate-900/60 border border-slate-700/70 rounded-2xl cursor-pointer hover:bg-slate-800/80 transition card-neon-hover">
+                    <input type="radio" name="expected_salary" value="8 - 12 triệu" class="w-4 h-4 text-indigo-500 bg-slate-800 border-slate-600">
+                    <span class="ml-2.5 text-xs font-bold text-slate-300">8 - 12 triệu (Fresher khởi điểm)</span>
+                  </label>
+                  <label class="flex items-center p-3 bg-slate-900/60 border border-slate-700/70 rounded-2xl cursor-pointer hover:bg-slate-800/80 transition card-neon-hover">
+                    <input type="radio" name="expected_salary" value="12 - 18 triệu" checked class="w-4 h-4 text-indigo-500 bg-slate-800 border-slate-600">
+                    <span class="ml-2.5 text-xs font-bold text-slate-300">12 - 18 triệu (Phổ biến)</span>
+                  </label>
+                  <label class="flex items-center p-3 bg-slate-900/60 border border-slate-700/70 rounded-2xl cursor-pointer hover:bg-slate-800/80 transition card-neon-hover">
+                    <input type="radio" name="expected_salary" value="18 - 25 triệu" class="w-4 h-4 text-indigo-500 bg-slate-800 border-slate-600">
+                    <span class="ml-2.5 text-xs font-bold text-slate-300">18 - 25 triệu</span>
+                  </label>
+                  <label class="flex items-center p-3 bg-slate-900/60 border border-slate-700/70 rounded-2xl cursor-pointer hover:bg-slate-800/80 transition card-neon-hover">
+                    <input type="radio" name="expected_salary" value="Trên 25 triệu" class="w-4 h-4 text-indigo-500 bg-slate-800 border-slate-600">
+                    <span class="ml-2.5 text-xs font-bold text-slate-300">Trên 25 triệu</span>
+                  </label>
+                </div>
+              </div>
+
+              <div>
+                <label class="block text-sm font-bold text-slate-300 mb-2">Thời gian sẵn sàng đầu tư học:</label>
+                <div class="space-y-2">
+                  <label class="flex items-center p-3 bg-slate-900/60 border border-slate-700/70 rounded-2xl cursor-pointer hover:bg-slate-800/80 transition card-neon-hover">
+                    <input type="radio" name="learning_time" value="Học cấp tốc 1-3 tháng" checked class="w-4 h-4 text-indigo-500 bg-slate-800 border-slate-600">
+                    <span class="ml-2.5 text-xs font-bold text-slate-300">⚡ Cấp tốc 1 - 3 tháng (Cần việc nhanh)</span>
+                  </label>
+                  <label class="flex items-center p-3 bg-slate-900/60 border border-slate-700/70 rounded-2xl cursor-pointer hover:bg-slate-800/80 transition card-neon-hover">
+                    <input type="radio" name="learning_time" value="Học bài bản 3-6 tháng" class="w-4 h-4 text-indigo-500 bg-slate-800 border-slate-600">
+                    <span class="ml-2.5 text-xs font-bold text-slate-300">📚 Bài bản 3 - 6 tháng (Nền tảng sâu)</span>
+                  </label>
+                  <label class="flex items-center p-3 bg-slate-900/60 border border-slate-700/70 rounded-2xl cursor-pointer hover:bg-slate-800/80 transition card-neon-hover">
+                    <input type="radio" name="learning_time" value="Vừa học vừa làm (Buổi tối / Cuối tuần)" class="w-4 h-4 text-indigo-500 bg-slate-800 border-slate-600">
+                    <span class="ml-2.5 text-xs font-bold text-slate-300">🌙 Vừa học vừa làm (Tối &amp; cuối tuần)</span>
+                  </label>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- BƯỚC 4: MỤC TIÊU ƯU TIÊN -->
+          <div id="form-step-4" class="space-y-6 hidden">
+            <div>
+              <h2 class="text-xl sm:text-2xl font-extrabold font-heading text-white tracking-tight">Bước 4: Mục tiêu ưu tiên</h2>
+              <p class="text-sm text-slate-400 mt-1">Đâu là tiêu chí quan trọng nhất trong quyết định việc làm của bạn?</p>
+            </div>
+
+            <div>
+              <label class="block text-sm font-bold text-slate-300 mb-2.5">Ưu tiên hàng đầu của bạn hiện tại là gì?</label>
+              <div class="space-y-3">
+                <label class="flex items-center p-4 bg-slate-900/60 border border-slate-700/70 rounded-2xl cursor-pointer hover:bg-slate-800/80 hover:border-cyan-500/50 transition-all card-neon-hover">
+                  <input type="radio" name="priority_goal" value="Cần việc làm có thu nhập ngay lập tức" checked class="w-4 h-4 text-cyan-500 bg-slate-800 border-slate-600">
+                  <div class="ml-3.5">
+                    <span class="text-sm font-bold text-white block">⚡ Cần việc làm có thu nhập ngay lập tức</span>
+                    <span class="text-xs text-slate-400">Ưu tiên vị trí có rào cản kỹ thuật vừa phải, học nhanh, thị trường tuyển nhiều, bắt đầu đi làm sớm nhất.</span>
+                  </div>
+                </label>
+                <label class="flex items-center p-4 bg-slate-900/60 border border-slate-700/70 rounded-2xl cursor-pointer hover:bg-slate-800/80 hover:border-cyan-500/50 transition-all card-neon-hover">
+                  <input type="radio" name="priority_goal" value="Cần lộ trình thăng tiến long-term, chấp nhận bắt đầu từ Thực tập/Fresher" class="w-4 h-4 text-cyan-500 bg-slate-800 border-slate-600">
+                  <div class="ml-3.5">
+                    <span class="text-sm font-bold text-white block">🚀 Cần lộ trình thăng tiến long-term, chấp nhận bắt đầu từ Thực tập/Fresher</span>
+                    <span class="text-xs text-slate-400">Chấp nhận mức lương khởi điểm thấp trong 6 tháng đầu để tích lũy kinh nghiệm, bứt phá thu nhập sau 2-3 năm.</span>
+                  </div>
+                </label>
+              </div>
+            </div>
+          </div>
+
+          <!-- Action Buttons -->
+          <div class="mt-8 pt-6 border-t border-slate-800 flex items-center justify-between">
+            <button type="button" id="btn-prev-step" onclick="prevStep()" class="hidden px-5 py-2.5 border border-slate-700 rounded-2xl text-xs sm:text-sm font-bold text-slate-300 hover:bg-slate-800 transition">
+              &larr; Quay lại
+            </button>
+            <div class="ml-auto">
+              <button type="button" id="btn-next-step" onclick="nextStep()" class="px-6 py-3 bg-gradient-to-r from-cyan-500 to-indigo-600 hover:from-cyan-400 hover:to-indigo-500 text-white rounded-2xl text-xs sm:text-sm font-bold transition shadow-lg shadow-indigo-600/30">
+                Tiếp tục &rarr;
+              </button>
+              <button type="button" id="btn-submit-form" onclick="submitSurvey()" class="hidden px-7 py-3 bg-gradient-to-r from-cyan-400 via-indigo-500 to-purple-600 hover:from-cyan-300 hover:to-purple-500 text-white rounded-2xl text-xs sm:text-sm font-bold transition neon-glow-btn">
+                ✨ Phân Tích Skill Gap &amp; Bắt Đầu Tư Vấn
+              </button>
+            </div>
+          </div>
+
+        </form>
+
+      </div>
+    </div>
+
+
+    <!-- ================= VIEW 2: CHATBOT & KẾT QUẢ TỔNG QUAN ================= -->
+    <div id="view-chat" class="hidden grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
+      
+      <!-- CỘT TRÁI: OVERVIEW ANALYSIS & EXPORT PDF -->
+      <div class="lg:col-span-5 space-y-4">
+        
+        <!-- Result Card -->
+        <div class="glass-dark rounded-3xl shadow-2xl border border-slate-700/70 p-5 sm:p-6 space-y-4">
+          <div class="flex items-center justify-between">
+            <h3 class="text-base font-extrabold font-heading text-white flex items-center gap-2.5">
+              <span class="w-8 h-8 rounded-xl bg-cyan-950 text-cyan-300 border border-cyan-500/40 flex items-center justify-center text-sm font-bold shadow-xs">🎯</span>
+              <span>Vị Trí Phù Hợp &amp; Skill Gap</span>
+            </h3>
+            <button onclick="exportCurrentPDF()" class="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-bold bg-emerald-950/60 text-emerald-300 border border-emerald-500/40 rounded-xl hover:bg-emerald-900/60 transition shadow-xs">
+              📥 Xuất PDF
+            </button>
+          </div>
+
+          <p id="overview-text" class="text-xs leading-relaxed text-slate-300 bg-slate-900/80 p-4 rounded-2xl border border-slate-800 shadow-inner">
+            Đang phân tích hồ sơ...
+          </p>
+
+          <div>
+            <h4 class="text-xs font-bold uppercase tracking-wider text-cyan-400/80 mb-3 flex items-center gap-1.5">
+              <span>⚡</span> Top Vị Trí Đề Xuất Thực Chiến
+            </h4>
+            <div id="top-majors-list" class="space-y-3.5">
+              <!-- Render by JS -->
+            </div>
+          </div>
+        </div>
+
+        <!-- Quick Tips Card -->
+        <div class="p-4 rounded-3xl bg-gradient-to-r from-indigo-950/60 to-purple-950/60 border border-indigo-700/50 text-xs text-indigo-200 leading-relaxed shadow-lg">
+          💡 <strong>Mẹo tương tác:</strong> Bạn có thể bấm vào chế độ <em>"4. Phỏng vấn Roleplay"</em> để AI đóng vai nhà tuyển dụng và hỏi các câu hỏi tình huống thực tế!
+        </div>
+
+      </div>
+
+      <!-- CỘT PHẢI: CHATBOT WINDOW (CORE FEATURE) -->
+      <div class="lg:col-span-7 glass-dark rounded-3xl shadow-2xl border border-slate-700/70 flex flex-col h-[750px] overflow-hidden">
+        
+        <!-- Chat Header & 4 Modes Switcher -->
+        <div class="p-4 border-b border-slate-800 bg-slate-900/80 flex flex-col gap-3">
+          <div class="flex items-center justify-between">
+            <div class="flex items-center gap-2">
+              <span class="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-pulse ring-4 ring-emerald-500/20"></span>
+              <span class="text-sm font-extrabold font-heading text-white">Cố Vấn Hướng Nghiệp &amp; Việc Làm AI</span>
+              <span class="text-xs text-slate-400 font-medium">• Đang hoạt động</span>
+            </div>
+            <button onclick="clearChatHistory()" class="text-xs text-slate-400 hover:text-cyan-400 font-medium transition">Làm mới chat</button>
+          </div>
+
+          <!-- 4 Chế độ chọn nhanh -->
+          <div class="grid grid-cols-2 sm:grid-cols-4 gap-1.5 text-xs font-bold" id="mode-buttons">
+            <button onclick="setChatMode('skill_gap')" id="btn-mode-skill_gap" class="py-2 px-2.5 rounded-xl bg-gradient-to-r from-cyan-500 to-indigo-600 text-white shadow-md shadow-indigo-600/30 transition">
+              1. Skill Gap
+            </button>
+            <button onclick="setChatMode('roadmap')" id="btn-mode-roadmap" class="py-2 px-2.5 rounded-xl bg-slate-900/80 text-slate-300 hover:bg-slate-800 transition border border-slate-700/70">
+              2. Lộ trình học
+            </button>
+            <button onclick="setChatMode('market_trend')" id="btn-mode-market_trend" class="py-2 px-2.5 rounded-xl bg-slate-900/80 text-slate-300 hover:bg-slate-800 transition border border-slate-700/70">
+              3. Xu hướng &amp; CV
+            </button>
+            <button onclick="setChatMode('roleplay')" id="btn-mode-roleplay" class="py-2 px-2.5 rounded-xl bg-slate-900/80 text-slate-300 hover:bg-slate-800 transition border border-slate-700/70">
+              4. Phỏng vấn Roleplay
+            </button>
+          </div>
+        </div>
+
+        <!-- Chat Messages Container -->
+        <div id="chat-messages" class="flex-1 p-4 sm:p-5 overflow-y-auto custom-scrollbar space-y-4">
+          <!-- Messages will be appended here -->
+        </div>
+
+        <!-- Guardrail Alert Tag -->
+        <div id="guardrail-badge" class="hidden px-4 py-2 bg-amber-950/60 border-t border-amber-500/40 text-amber-200 text-xs flex items-center gap-2 font-medium">
+          <span>🛡️</span>
+          <span>Hệ thống chỉ giải đáp các chủ đề việc làm, kỹ năng, lộ trình học và phỏng vấn.</span>
+        </div>
+
+        <!-- Quick Prompts Suggestions (Dynamic & Self-updating) -->
+        <div class="px-4 py-2.5 bg-slate-950/70 border-t border-slate-800 flex items-center gap-2 overflow-x-auto text-xs text-slate-300 whitespace-nowrap custom-scrollbar">
+          <span class="font-bold text-slate-500">💡 Gợi ý hỏi tiếp:</span>
+          <div id="dynamic-suggestions" class="flex items-center gap-2">
+            <!-- Dynamically populated and replaced on click -->
+          </div>
+        </div>
+
+        <!-- Chat Input Form -->
+        <form onsubmit="handleSendMessage(event)" class="p-3.5 border-t border-slate-800 bg-slate-950/90 flex gap-2">
+          <input 
+            type="text" 
+            id="chat-input" 
+            placeholder="Hỏi về lộ trình học, kỹ năng còn thiếu, cách viết CV Fresher, luyện phỏng vấn..." 
+            class="flex-1 px-4 py-3 bg-slate-900 border border-slate-700/80 rounded-2xl text-sm text-white placeholder-slate-500 focus:outline-none focus:border-cyan-400 focus:ring-2 focus:ring-cyan-500/20 transition shadow-inner"
+            required
+          >
+          <button type="submit" id="chat-submit-btn" class="px-5 py-3 bg-gradient-to-r from-cyan-500 to-indigo-600 hover:from-cyan-400 hover:to-indigo-500 text-white font-bold text-sm rounded-2xl transition shadow-md shadow-indigo-600/30 flex items-center gap-1.5">
+            <span>Gửi</span>
+            <span>&uarr;</span>
+          </button>
+        </form>
+
+      </div>
+
+    </div>
+
+
+    <!-- ================= VIEW 3: ADMIN DASHBOARD ================= -->
+    <div id="view-admin" class="hidden space-y-6">
+      
+      <div class="flex items-center justify-between">
+        <div>
+          <h2 class="text-2xl font-extrabold font-heading text-white tracking-tight">Admin Career Analytics Dashboard</h2>
+          <p class="text-sm text-slate-400">Thống kê xu hướng hướng nghiệp, phân bổ đối tượng, kỹ năng sẵn có và kỳ vọng thu nhập</p>
+        </div>
+        <button onclick="loadAdminMetrics()" class="px-4 py-2 text-xs font-bold bg-slate-900 border border-slate-700 text-slate-200 rounded-2xl hover:bg-slate-800 transition shadow-xs">
+          🔄 Cập nhật số liệu
+        </button>
+      </div>
+
+      <!-- Stat Cards -->
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+        <div class="glass-dark p-5 rounded-3xl border border-slate-700/70 shadow-lg card-neon-hover">
+          <p class="text-xs font-bold text-slate-400 uppercase tracking-wider">Tổng lượt tư vấn</p>
+          <p id="stat-total-consultations" class="text-3xl font-extrabold text-cyan-400 mt-1">160</p>
+          <p class="text-xs text-emerald-400 mt-2 font-bold">↑ +18% so với tuần trước</p>
+        </div>
+        <div class="glass-dark p-5 rounded-3xl border border-slate-700/70 shadow-lg card-neon-hover">
+          <p class="text-xs font-bold text-slate-400 uppercase tracking-wider">Ứng viên đăng ký</p>
+          <p id="stat-total-students" class="text-3xl font-extrabold text-indigo-400 mt-1">128</p>
+          <p class="text-xs text-slate-400 mt-2 font-medium">Sinh viên &amp; Người đổi ngành</p>
+        </div>
+        <div class="glass-dark p-5 rounded-3xl border border-slate-700/70 shadow-lg card-neon-hover">
+          <p class="text-xs font-bold text-slate-400 uppercase tracking-wider">Đối tượng phổ biến nhất</p>
+          <p class="text-xl font-extrabold text-amber-400 mt-1">Sinh viên &amp; Switcher</p>
+          <p class="text-xs text-slate-400 mt-2 font-medium">Chiếm 82% tổng số lượt</p>
+        </div>
+        <div class="glass-dark p-5 rounded-3xl border border-slate-700/70 shadow-lg card-neon-hover">
+          <p class="text-xs font-bold text-slate-400 uppercase tracking-wider">Vị trí muốn chuyển #1</p>
+          <p class="text-xl font-extrabold text-emerald-400 mt-1">Data / BI Analyst</p>
+          <p class="text-xs text-slate-400 mt-2 font-medium">Tester &amp; Frontend bám sát</p>
+        </div>
+      </div>
+
+      <!-- Charts Grid -->
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        
+        <!-- Chart 1: Phân bổ Đối tượng -->
+        <div class="glass-dark p-6 rounded-3xl border border-slate-700/70 shadow-lg">
+          <h3 class="text-sm font-extrabold font-heading text-white mb-4">Phân Bổ Nhóm Đối Tượng Ứng Viên</h3>
+          <div class="h-64 flex items-center justify-center">
+            <canvas id="chartUserGroups"></canvas>
+          </div>
+        </div>
+
+        <!-- Chart 2: Top Vị trí đề xuất -->
+        <div class="glass-dark p-6 rounded-3xl border border-slate-700/70 shadow-lg">
+          <h3 class="text-sm font-extrabold font-heading text-white mb-4">Top Vị Trí Công Việc Được Đề Xuất Nhiều Nhất</h3>
+          <div class="h-64 flex items-center justify-center">
+            <canvas id="chartRoles"></canvas>
+          </div>
+        </div>
+
+        <!-- Chart 3: Kỹ năng sẵn có -->
+        <div class="glass-dark p-6 rounded-3xl border border-slate-700/70 shadow-lg">
+          <h3 class="text-sm font-extrabold font-heading text-white mb-4">Kỹ Năng Đã Có (Transferable Skills)</h3>
+          <div class="h-64 flex items-center justify-center">
+            <canvas id="chartSkills"></canvas>
+          </div>
+        </div>
+
+        <!-- Chart 4: Thời gian sẵn sàng học -->
+        <div class="glass-dark p-6 rounded-3xl border border-slate-700/70 shadow-lg">
+          <h3 class="text-sm font-extrabold font-heading text-white mb-4">Thời Gian Sẵn Sàng Đầu Tư Học Lại</h3>
+          <div class="h-64 flex items-center justify-center">
+            <canvas id="chartLearningTime"></canvas>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+
+  </main>
+
+  <!-- ================= AUTH MODAL (LOGIN / REGISTER) ================= -->
+  <div id="auth-modal" class="hidden fixed inset-0 z-50 bg-black/70 backdrop-blur-md flex items-center justify-center p-4">
+    <div class="glass-dark rounded-3xl shadow-2xl border border-slate-700 max-w-sm w-full p-6 sm:p-7 space-y-4">
+      <div class="flex justify-between items-center">
+        <h3 id="auth-modal-title" class="text-lg font-extrabold font-heading text-white">Đăng Nhập Tài Khoản</h3>
+        <button onclick="toggleAuthModal()" class="text-slate-400 hover:text-white text-2xl font-bold leading-none">&times;</button>
+      </div>
+
+      <form onsubmit="handleAuthSubmit(event)" class="space-y-3.5">
+        <div id="auth-name-group" class="hidden">
+          <label class="block text-xs font-bold text-slate-300 mb-1">Họ và tên</label>
+          <input type="text" id="auth-name" placeholder="Nguyễn Văn A" class="w-full px-4 py-2.5 bg-slate-900 border border-slate-700 rounded-xl text-sm text-white focus:outline-none focus:border-cyan-400">
+        </div>
+
+        <div>
+          <label class="block text-xs font-bold text-slate-300 mb-1">Email</label>
+          <input type="email" id="auth-email" placeholder="ungvien@example.com" required class="w-full px-4 py-2.5 bg-slate-900 border border-slate-700 rounded-xl text-sm text-white focus:outline-none focus:border-cyan-400">
+        </div>
+
+        <div>
+          <label class="block text-xs font-bold text-slate-300 mb-1">Mật khẩu</label>
+          <input type="password" id="auth-password" placeholder="••••••••" required class="w-full px-4 py-2.5 bg-slate-900 border border-slate-700 rounded-xl text-sm text-white focus:outline-none focus:border-cyan-400">
+        </div>
+
+        <button type="submit" id="auth-submit-btn" class="w-full py-3 bg-gradient-to-r from-cyan-500 to-indigo-600 hover:from-cyan-400 hover:to-indigo-500 text-white font-bold text-sm rounded-xl shadow-lg shadow-indigo-600/30 transition">
+          Đăng Nhập
+        </button>
+      </form>
+
+      <div class="text-center pt-2">
+        <button type="button" onclick="toggleAuthMode()" id="auth-toggle-btn" class="text-xs text-cyan-400 font-bold hover:underline">
+          Chưa có tài khoản? Đăng ký ngay
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ================= GEMINI API KEY MODAL ================= -->
+  <div id="key-modal" class="hidden fixed inset-0 z-50 bg-black/70 backdrop-blur-md flex items-center justify-center p-4">
+    <div class="glass-dark rounded-3xl shadow-2xl border border-slate-700 max-w-md w-full p-6 sm:p-7 space-y-4">
+      <div class="flex justify-between items-center">
+        <h3 class="text-base font-extrabold font-heading text-white flex items-center gap-2">
+          <span>🔑</span> Cấu Hình Google Gemini API Key
+        </h3>
+        <button onclick="toggleKeyModal()" class="text-slate-400 hover:text-white text-2xl font-bold leading-none">&times;</button>
+      </div>
+
+      <p class="text-xs text-slate-400 leading-relaxed">
+        Nhập Google Gemini API Key của bạn để trò chuyện trực tiếp với Gemini 1.5 Flash. 
+        Nếu chưa có Key, hệ thống vẫn hoạt động mạnh mẽ nhờ <strong>Bộ máy Tri thức Nghề nghiệp Tích Hợp</strong>!
+      </p>
+
+      <div>
+        <label class="block text-xs font-bold text-slate-300 mb-1.5">Gemini API Key (AIzaSy...):</label>
+        <input 
+          type="text" 
+          id="gemini-key-input" 
+          placeholder="Dán mã API Key của bạn vào đây..." 
+          class="w-full px-4 py-3 bg-slate-900 border border-slate-700 rounded-xl text-xs font-mono text-cyan-300 focus:outline-none focus:border-cyan-400"
+        >
+        <p class="text-[11px] text-slate-500 mt-1.5">
+          Lấy miễn phí tại: <a href="https://aistudio.google.com/app/apikey" target="_blank" class="text-cyan-400 font-bold underline">Google AI Studio</a>
+        </p>
+      </div>
+
+      <div class="flex items-center justify-between pt-2">
+        <button type="button" onclick="clearApiKey()" class="text-xs text-rose-400 font-bold hover:underline">Xóa Key đã lưu</button>
+        <div class="flex gap-2">
+          <button type="button" onclick="toggleKeyModal()" class="px-4 py-2 text-xs font-bold border border-slate-700 text-slate-300 rounded-xl hover:bg-slate-800">Đóng</button>
+          <button type="button" onclick="saveApiKey()" class="px-4 py-2 bg-gradient-to-r from-cyan-500 to-indigo-600 hover:from-cyan-400 hover:to-indigo-500 text-white font-bold text-xs rounded-xl shadow-md">Lưu &amp; Áp Dụng</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- APPLICATION LOGIC JAVASCRIPT -->
+  <script>
+    // State Management
+    let currentStep = 1;
+    let activeSessionId = null;
+    let activeChatMode = 'skill_gap';
+    let currentUser = null;
+    let chartInstances = {};
+    let isRegisterMode = false;
+
+    const API_BASE = '/api';
+
+    // RESET TO INITIAL STATE (Khi bấm vào logo ở góc ngoài cùng bên trái)
+    function resetToInitialState() {
+      // 1. Chuyển về màn hình Form khảo sát
+      switchView('form');
+
+      // 2. Quay về Bước 1
+      currentStep = 1;
+      updateStepUI();
+
+      // 3. Cuộn mượt mà lên đầu trang
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    // Navigation Between Steps
+    function updateStepUI() {
+      for (let i = 1; i <= 4; i++) {
+        const el = document.getElementById(`form-step-${i}`);
+        if (el) el.classList.toggle('hidden', i !== currentStep);
+      }
+      document.getElementById('step-badge').innerHTML = `
+        <span class="w-2 h-2 rounded-full bg-cyan-400 animate-ping"></span>
+        Bước ${currentStep} / 4
+      `;
+      document.getElementById('progress-bar').style.width = `${(currentStep / 4) * 100}%`;
+
+      const titles = {
+        1: 'Phân loại đối tượng & Hiện trạng',
+        2: 'Hồ sơ kỹ năng & Kinh nghiệm',
+        3: 'Kỳ vọng nghề nghiệp mới',
+        4: 'Mục tiêu ưu tiên'
+      };
+      document.getElementById('step-title-hint').textContent = titles[currentStep];
+
+      document.getElementById('btn-prev-step').classList.toggle('hidden', currentStep === 1);
+      document.getElementById('btn-next-step').classList.toggle('hidden', currentStep === 4);
+      document.getElementById('btn-submit-form').classList.toggle('hidden', currentStep !== 4);
+    }
+
+    function nextStep() {
+      if (currentStep < 4) {
+        currentStep++;
+        updateStepUI();
+      }
+    }
+
+    function prevStep() {
+      if (currentStep > 1) {
+        currentStep--;
+        updateStepUI();
+      }
+    }
+
+    // Switch Main Views
+    function switchView(view) {
+      document.getElementById('view-form').classList.toggle('hidden', view !== 'form');
+      document.getElementById('view-chat').classList.toggle('hidden', view !== 'chat');
+      document.getElementById('view-admin').classList.toggle('hidden', view !== 'admin');
+
+      // Update button styling
+      document.getElementById('nav-btn-form').className = view === 'form' 
+        ? "px-3.5 py-1.5 rounded-xl text-xs sm:text-sm font-bold text-cyan-300 bg-cyan-950/60 border border-cyan-500/40 shadow-xs" 
+        : "px-3.5 py-1.5 rounded-xl text-xs sm:text-sm font-semibold text-slate-300 hover:text-cyan-300 hover:bg-slate-800/60 transition";
+      
+      document.getElementById('nav-btn-admin').className = view === 'admin'
+        ? "px-3.5 py-1.5 rounded-xl text-xs sm:text-sm font-bold text-cyan-300 bg-cyan-950/60 border border-cyan-500/40 shadow-xs"
+        : "px-3.5 py-1.5 rounded-xl text-xs sm:text-sm font-semibold text-slate-300 hover:text-cyan-300 hover:bg-slate-800/60 transition";
+
+      if (view === 'admin') {
+        loadAdminMetrics();
+      }
+    }
+
+    // Submit Survey Form
+    async function submitSurvey() {
+      const formEl = document.getElementById('guidance-form');
+      
+      // Bước 1: Đối tượng & Hiện trạng
+      const groupRadio = formEl.querySelector('input[name="user_group"]:checked');
+      const userGroup = groupRadio ? groupRadio.value : 'Sinh viên năm cuối / Mới tốt nghiệp';
+      const educationMajor = document.getElementById('education-major').value.trim() || 'Đại học - Kế toán';
+
+      // Bước 2: Kỹ năng & Kinh nghiệm
+      const skills = Array.from(formEl.querySelectorAll('input[name="skills"]:checked')).map(cb => cb.value);
+      const customSkills = document.getElementById('custom-skills').value.trim();
+      const expRadio = formEl.querySelector('input[name="experience"]:checked');
+      const experienceYears = expRadio ? expRadio.value : 'Chưa có kinh nghiệm / Mới ra trường';
+
+      // Bước 3: Kỳ vọng
+      const targetCareerRadio = formEl.querySelector('input[name="target_career"]:checked');
+      const targetCareer = targetCareerRadio ? targetCareerRadio.value : 'Phân tích dữ liệu (Data / BI Analyst)';
+
+      const salaryRadio = formEl.querySelector('input[name="expected_salary"]:checked');
+      const expectedSalary = salaryRadio ? salaryRadio.value : '12 - 18 triệu';
+
+      const learningTimeRadio = formEl.querySelector('input[name="learning_time"]:checked');
+      const learningTime = learningTimeRadio ? learningTimeRadio.value : 'Học cấp tốc 1-3 tháng';
+
+      // Bước 4: Mục tiêu ưu tiên
+      const priorityRadio = formEl.querySelector('input[name="priority_goal"]:checked');
+      const primaryGoal = priorityRadio ? priorityRadio.value : 'Cần việc làm có thu nhập ngay lập tức';
+
+      const payload = {
+        step1_target: {
+          user_group: userGroup,
+          current_education_major: educationMajor
+        },
+        step2_skillset: {
+          known_skills: skills,
+          custom_skills: customSkills,
+          experience_years: experienceYears
+        },
+        step3_expectations: {
+          target_career: targetCareer,
+          expected_salary: expectedSalary,
+          learning_time: learningTime
+        },
+        step4_priority: {
+          primary_goal: primaryGoal
+        }
+      };
+
+      const submitBtn = document.getElementById('btn-submit-form');
+      submitBtn.disabled = true;
+      submitBtn.innerHTML = '⏳ AI Đang phân tích Skill Gap & Lộ trình...';
+
+      try {
+        const token = localStorage.getItem('token');
+        const headers = { 'Content-Type': 'application/json' };
+        if (token) headers['Authorization'] = `Bearer ${token}`;
+
+        const res = await fetch(`${API_BASE}/profile/submit`, {
+          method: 'POST',
+          headers: headers,
+          body: JSON.stringify(payload)
+        });
+
+        if (!res.ok) {
+          const errDetail = await res.text();
+          throw new Error(`Máy chủ trả về mã lỗi ${res.status}: ${errDetail}`);
+        }
+
+        const data = await res.json();
+        activeSessionId = data.session_id;
+
+        // Render kết quả phân tích tổng quan
+        renderOverviewResults(data);
+
+        // Kích hoạt tab Chat
+        document.getElementById('nav-btn-chat').classList.remove('hidden');
+        renderSuggestions();
+        switchView('chat');
+
+        // Lời chào mở đầu cá nhân hóa theo nhóm đối tượng
+        const isStudent = userGroup.toLowerCase().includes("sinh viên") || userGroup.toLowerCase().includes("tốt nghiệp");
+        const greetingMsg = isStudent
+          ? `Chào bạn! Tôi đã phân tích toàn diện hồ sơ của bạn (**${userGroup}** - nền tảng **${educationMajor}**).\n\nỞ cột bên trái là **Top 3 Vị trí việc làm Fresher** và **Khoảng trống kỹ năng (Skill Gap)** cần chuẩn bị. Hãy hỏi tôi về cách sửa CV sinh viên, cách đưa đồ án tốt nghiệp vào CV, hoặc bấm vào chế độ **"4. Phỏng vấn Roleplay"** để luyện phỏng vấn nhé!`
+          : `Chào bạn! Tôi đã phân tích toàn diện hồ sơ của bạn (**${userGroup}** - nền tảng **${educationMajor}**).\n\nỞ cột bên trái, tôi đã chỉ ra **Bản đồ khoảng trống kỹ năng (Skill Gap)** và **Top 3 Vị trí việc làm thực chiến** phù hợp nhất. Bạn có thể hỏi tôi bất kỳ điều gì về lộ trình học cấp tốc, cách tối ưu CV trái ngành, hoặc chuyển sang chế độ **"Phỏng vấn Roleplay"** để luyện phỏng vấn nhé!`;
+
+        appendMessage('assistant', greetingMsg, 'skill_gap');
+
+      } catch (err) {
+        alert("Lỗi khi kết nối với máy chủ: " + err.message);
+      } finally {
+        submitBtn.disabled = false;
+        submitBtn.innerHTML = '✨ Phân Tích Skill Gap & Bắt Đầu Tư Vấn';
+      }
+    }
+
+    // Render Overview Results (Job Roles & Skill Gap)
+    function renderOverviewResults(data) {
+      document.getElementById('overview-text').innerHTML = marked.parse(data.overview_text || "");
+
+      const rolesListEl = document.getElementById('top-majors-list');
+      rolesListEl.innerHTML = '';
+
+      const roles = data.job_roles || data.top_majors || [];
+      roles.forEach((r, idx) => {
+        const card = document.createElement('div');
+        card.className = "p-4 bg-slate-900/80 border border-slate-700/80 rounded-2xl space-y-3 shadow-md card-neon-hover";
+        
+        const title = r.job_title || r.major_name || "Vị trí việc làm";
+        const fit = r.match_percentage || 90;
+        const transferable = (r.transferable_skills || []).map(s => `<span class="bg-emerald-950/70 text-emerald-300 border border-emerald-500/40 px-2 py-0.5 rounded-lg text-[11px] font-semibold">✓ ${s}</span>`).join(' ');
+        const missing = (r.missing_skills || []).map(s => `<span class="bg-amber-950/70 text-amber-300 border border-amber-500/40 px-2 py-0.5 rounded-lg text-[11px] font-semibold">⚡ ${s}</span>`).join(' ');
+
+        card.innerHTML = `
+          <div class="flex items-center justify-between">
+            <span class="text-xs font-bold text-white">#${idx+1} ${title}</span>
+            <span class="text-xs font-extrabold text-cyan-300 bg-cyan-950/80 border border-cyan-500/40 px-2.5 py-0.5 rounded-full neon-badge">${fit}% Phù Hợp</span>
+          </div>
+          <div class="w-full bg-slate-800 h-2 rounded-full overflow-hidden p-0.5">
+            <div class="bg-gradient-to-r from-cyan-400 via-indigo-500 to-purple-500 h-full rounded-full" style="width: ${fit}%"></div>
+          </div>
+          <p class="text-xs text-slate-300 leading-normal">${r.reason || ""}</p>
+          
+          <!-- Transferable Skills -->
+          <div class="space-y-1">
+            <span class="text-[10px] font-bold uppercase tracking-wider text-emerald-400">Kỹ năng chuyển đổi được (Sẵn có):</span>
+            <div class="flex flex-wrap gap-1.5">${transferable || "<span class='text-xs text-slate-500'>Nền tảng giao tiếp, tin học</span>"}</div>
+          </div>
+
+          <!-- Skill Gap -->
+          <div class="space-y-1">
+            <span class="text-[10px] font-bold uppercase tracking-wider text-amber-400">Skill Gap (Cần học thêm):</span>
+            <div class="flex flex-wrap gap-1.5">${missing || "<span class='text-xs text-slate-500'>Kỹ năng chuyên môn sâu</span>"}</div>
+          </div>
+
+          <!-- Roadmap Summary -->
+          ${r.roadmap_summary ? `
+            <div class="p-3 bg-indigo-950/40 border border-indigo-500/30 rounded-xl text-[11px] text-indigo-200 leading-relaxed font-medium">
+              <strong class="text-cyan-300">📅 Lộ trình học:</strong> ${r.roadmap_summary}
+            </div>
+          ` : ''}
+
+          <!-- Salary & Companies -->
+          <div class="flex flex-wrap gap-2 pt-1 text-[11px] text-slate-300">
+            <span class="bg-slate-800/90 border border-slate-700 px-2.5 py-1 rounded-lg font-medium">💰 Lương: <strong class="text-white">${r.expected_salary || r.starting_salary || "Thỏa thuận"}</strong></span>
+          </div>
+        `;
+        rolesListEl.appendChild(card);
+      });
+    }
+
+    // Pool Gợi Ý Thông Minh Theo 4 Chế Độ
+    const SUGGESTION_POOLS = {
+      'skill_gap': [
+        "Sinh viên mới ra trường cần trang bị gì để làm Data Analyst?",
+        "Người trái ngành có dễ xin việc làm Tester không?",
+        "Kỹ năng nào của tôi có thể làm lợi thế cạnh tranh ngay?",
+        "So sánh cơ hội việc làm giữa Data Analyst và Tester?",
+        "Tỷ lệ ứng viên có việc làm sau khi ra trường năm 2026?"
+      ],
+      'roadmap': [
+        "Lộ trình 3 tháng học Data Analyst cấp tốc từ con số 0?",
+        "Cách đưa đồ án tốt nghiệp vào CV để gây ấn tượng với HR?",
+        "Làm thế nào để xây dựng 1 Portfolio ấn tượng khi chưa có kinh nghiệm?",
+        "Nên học những chứng chỉ gì uy tín nhất (SQL, Power BI, AWS)?",
+        "Mỗi ngày tôi nên dành bao nhiêu tiếng để học hiệu quả?"
+      ],
+      'market_trend': [
+        "Mức lương Fresher năm 2026 trung bình bao nhiêu?",
+        "Cách sửa CV sinh viên để vượt qua vòng lọc hồ sơ của HR?",
+        "Các công ty nào cởi mở tuyển dụng người chưa có kinh nghiệm?",
+        "Trí tuệ nhân tạo (AI) có làm mất việc của lập trình viên không?",
+        "Viết phần tóm tắt bản thân (Career Summary) trong CV thế nào?"
+      ],
+      'roleplay': [
+        "Phỏng vấn thử câu: 'Bạn chưa có kinh nghiệm, tại sao chúng tôi nên chọn bạn?'",
+        "Nếu nhà tuyển dụng hỏi 'Điểm yếu lớn nhất của bạn là gì?'",
+        "Tình huống: Khi sếp giao dự án dùng công nghệ bạn chưa từng học?",
+        "Mô phỏng 1 buổi phỏng vấn kỹ thuật vị trí Fresher Tester!",
+        "Mô phỏng 1 câu hỏi tình huống xử lý dữ liệu của Data Analyst!"
+      ]
+    };
+
+    let currentSuggestions = [...SUGGESTION_POOLS['skill_gap'].slice(0, 3)];
+
+    function renderSuggestions() {
+      const container = document.getElementById('dynamic-suggestions');
+      if (!container) return;
+      container.innerHTML = '';
+      currentSuggestions.forEach(text => {
+        const btn = document.createElement('button');
+        btn.className = "px-3 py-1 bg-slate-900 border border-slate-700/80 rounded-xl hover:border-cyan-400 hover:text-cyan-300 hover:shadow-xs transition text-xs whitespace-nowrap font-medium card-neon-hover text-slate-300";
+        btn.textContent = text;
+        btn.onclick = () => quickAsk(text);
+        container.appendChild(btn);
+      });
+    }
+
+    // Chatbot Modes Management
+    function setChatMode(mode) {
+      activeChatMode = mode;
+      const modes = ['skill_gap', 'roadmap', 'market_trend', 'roleplay'];
+
+      modes.forEach(m => {
+        const btn = document.getElementById(`btn-mode-${m}`);
+        if (!btn) return;
+        if (m === mode) {
+          btn.className = "py-2 px-2.5 rounded-xl bg-gradient-to-r from-cyan-500 to-indigo-600 text-white shadow-md shadow-indigo-600/30 transition";
+        } else {
+          btn.className = "py-2 px-2.5 rounded-xl bg-slate-900/80 text-slate-300 hover:bg-slate-800 transition border border-slate-700/70";
+        }
+      });
+
+      // Cập nhật gợi ý mới theo chế độ
+      currentSuggestions = [...(SUGGESTION_POOLS[mode] || SUGGESTION_POOLS['skill_gap']).slice(0, 3)];
+      renderSuggestions();
+
+      // Thông báo khi chuyển chế độ
+      if (mode === 'roleplay') {
+        appendMessage('assistant', `🎭 **Đã kích hoạt Chế độ: Mô phỏng phỏng vấn & Thử thách tình huống!**\n\nTôi sẽ đóng vai Nhà tuyển dụng (HR / Hiring Manager). Bạn hãy bấm vào các gợi ý bên dưới hoặc nhắn câu hỏi phỏng vấn bạn muốn luyện tập nhé!`, 'roleplay');
+      } else if (mode === 'roadmap') {
+        appendMessage('assistant', `📚 **Đã kích hoạt Chế độ: Lập lộ trình học thực chiến (Roadmap)!**\n\nHãy cho tôi biết bạn muốn lập lộ trình trong bao lâu (1 tháng, 3 tháng hay 6 tháng)? Tôi sẽ lên danh sách từng kỹ năng, tài liệu và đồ án thực tế cụ thể cho bạn.`, 'roadmap');
+      } else if (mode === 'market_trend') {
+        appendMessage('assistant', `📈 **Đã kích hoạt Chế độ: Xu hướng tuyển dụng, Mức lương & Tối ưu CV!**\n\nBạn có thể hỏi tôi về mức lương thực tế, nhu cầu tuyển dụng của thị trường, hoặc cách trình bày dự án trong CV sao cho chuyên nghiệp.`, 'market_trend');
+      }
+    }
+
+    // Append Message to UI
+    function appendMessage(role, text, mode) {
+      const container = document.getElementById('chat-messages');
+      const msgDiv = document.createElement('div');
+      msgDiv.className = `flex ${role === 'user' ? 'justify-end' : 'justify-start'}`;
+
+      const bubble = document.createElement('div');
+      bubble.className = role === 'user'
+        ? "max-w-[85%] sm:max-w-[75%] bg-gradient-to-r from-cyan-600 to-indigo-600 text-white rounded-2xl rounded-tr-xs px-4 py-3 text-sm shadow-md font-medium"
+        : "max-w-[92%] sm:max-w-[88%] bg-slate-900/90 text-slate-200 rounded-2xl rounded-tl-xs px-4 sm:px-5 py-3.5 text-sm border border-slate-700/70 shadow-md space-y-1";
+
+      if (role === 'assistant') {
+        const modeBadges = {
+          'skill_gap': '🎯 Phân tích Skill Gap & Việc làm',
+          'roadmap': '📅 Lộ trình chuyển nghề (Roadmap)',
+          'market_trend': '📈 Xu hướng tuyển dụng & Tối ưu CV',
+          'roleplay': '🎭 Mô phỏng phỏng vấn (Mock Interview)'
+        };
+        const badgeText = modeBadges[mode] || 'Cố vấn Hướng nghiệp AI';
+        bubble.innerHTML = `
+          <div class="text-[10px] uppercase font-extrabold text-cyan-400 tracking-wider mb-1 flex items-center gap-1.5">
+            <span class="w-1.5 h-1.5 rounded-full bg-cyan-400"></span>
+            ${badgeText}
+          </div>
+          <div class="prose-dark leading-relaxed">${marked.parse(text)}</div>
+        `;
+      } else {
+        bubble.textContent = text;
+      }
+
+      msgDiv.appendChild(bubble);
+      container.appendChild(msgDiv);
+      container.scrollTop = container.scrollHeight;
+      return msgDiv; // cho streaming: cập nhật nội dung từng phần
+    }
+
+    // Handle Send Message
+    async function handleSendMessage(e) {
+      if (e) e.preventDefault();
+      const input = document.getElementById('chat-input');
+      const message = input.value.trim();
+      if (!message) return;
+
+      if (!activeSessionId) {
+        alert("Vui lòng hoàn thành bài khảo sát Form 4 bước trước khi trò chuyện!");
+        return;
+      }
+
+      appendMessage('user', message, activeChatMode);
+      input.value = '';
+
+      const submitBtn = document.getElementById('chat-submit-btn');
+      submitBtn.disabled = true;
+
+      const savedKey = localStorage.getItem('gemini_api_key') || null;
+
+      try {
+        // Streaming SSE: nhận từng đoạn phản hồi thay vì đợi cả câu
+        const res = await fetch(`${API_BASE}/chat/message/stream`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            session_id: activeSessionId,
+            message: message,
+            mode: activeChatMode,
+            api_key: savedKey
+          })
+        });
+
+        if (!res.ok || !res.body) {
+          const errData = await res.json().catch(() => null);
+          throw new Error((errData && errData.detail) || `HTTP ${res.status}`);
+        }
+
+        const reader = res.body.getReader();
+        const decoder = new TextDecoder();
+        let buf = '', fullText = '', msgEl = null;
+        while (true) {
+          const { value, done } = await reader.read();
+          if (done) break;
+          buf += decoder.decode(value, { stream: true });
+          const events = buf.split('\n\n');
+          buf = events.pop();
+          for (const ev of events) {
+            if (!ev.startsWith('data: ')) continue;
+            const payload = JSON.parse(ev.slice(6));
+            if (typeof payload.delta === 'string') {
+              fullText += payload.delta;
+              if (!msgEl) msgEl = appendMessage('assistant', '', activeChatMode);
+              // Trong lúc stream: text thô để nhanh; render markdown khi xong
+              msgEl.querySelector('.prose-dark').textContent = fullText;
+              document.getElementById('chat-messages').scrollTop =
+                document.getElementById('chat-messages').scrollHeight;
+            }
+            if (payload.done && msgEl) {
+              msgEl.querySelector('.prose-dark').innerHTML = marked.parse(fullText);
+            }
+          }
+        }
+
+      } catch (err) {
+        appendMessage('assistant', `⚠️ Lỗi gửi tin nhắn: ${err.message}`, activeChatMode);
+      } finally {
+        submitBtn.disabled = false;
+      }
+    }
+
+    // Tự Động Xóa Gợi Ý Vừa Chọn & Bổ Sung Gợi Ý Mới Thông Minh
+    function quickAsk(text) {
+      // 1. Xóa ngay gợi ý vừa chọn ra khỏi danh sách
+      const idx = currentSuggestions.indexOf(text);
+      if (idx > -1) {
+        currentSuggestions.splice(idx, 1);
+      }
+
+      // 2. Bổ sung gợi ý mới từ pool
+      const pool = SUGGESTION_POOLS[activeChatMode] || SUGGESTION_POOLS['skill_gap'];
+      const candidates = pool.filter(p => !currentSuggestions.includes(p) && p !== text);
+      if (candidates.length > 0) {
+        currentSuggestions.push(candidates[Math.floor(Math.random() * candidates.length)]);
+      }
+
+      // Render lại gợi ý
+      renderSuggestions();
+
+      // Gửi câu hỏi vào khung chat
+      document.getElementById('chat-input').value = text;
+      handleSendMessage();
+    }
+
+    // Quản Lý Gemini API Key Modal
+    function toggleKeyModal() {
+      const modal = document.getElementById('key-modal');
+      modal.classList.toggle('hidden');
+      const saved = localStorage.getItem('gemini_api_key');
+      if (saved) {
+        document.getElementById('gemini-key-input').value = saved;
+      }
+    }
+
+    function saveApiKey() {
+      const key = document.getElementById('gemini-key-input').value.trim();
+      if (key) {
+        localStorage.setItem('gemini_api_key', key);
+        document.getElementById('key-nav-btn').innerHTML = '✅ Đã Lưu API Key';
+        document.getElementById('key-nav-btn').className = 'px-3.5 py-1.5 rounded-xl text-xs font-bold text-emerald-300 bg-emerald-950/60 border border-emerald-500/40 transition shadow-xs';
+        alert('Đã lưu Gemini API Key thành công! Chatbot sẽ sử dụng Gemini AI trực tiếp.');
+      } else {
+        localStorage.removeItem('gemini_api_key');
+      }
+      toggleKeyModal();
+    }
+
+    function clearApiKey() {
+      localStorage.removeItem('gemini_api_key');
+      document.getElementById('gemini-key-input').value = '';
+      document.getElementById('key-nav-btn').innerHTML = '🔑 Gemini API';
+      document.getElementById('key-nav-btn').className = 'px-3.5 py-1.5 rounded-xl text-xs font-bold text-amber-300 bg-amber-950/40 hover:bg-amber-900/50 border border-amber-500/30 transition shadow-xs';
+      alert('Đã xóa API Key. Hệ thống chuyển sang dùng Bộ máy Tri thức Nghề nghiệp tích hợp.');
+      toggleKeyModal();
+    }
+
+    function clearChatHistory() {
+      document.getElementById('chat-messages').innerHTML = '';
+      appendMessage('assistant', 'Chào bạn! Tôi đã sẵn sàng tiếp tục đồng hành cùng bạn trong việc định hướng lộ trình việc làm và phát triển sự nghiệp.', activeChatMode);
+    }
+
+    // Export PDF
+    function exportCurrentPDF() {
+      if (!activeSessionId) {
+        alert("Chưa có phiên tư vấn nào để xuất báo cáo!");
+        return;
+      }
+      window.open(`${API_BASE}/history/${activeSessionId}/export-pdf`, '_blank');
+    }
+
+    // Admin Metrics & Charts (Dark Theme Colors)
+    async function loadAdminMetrics() {
+      try {
+        const token = localStorage.getItem('token');
+        const res = await fetch(`${API_BASE}/admin/dashboard`, {
+          headers: token ? { 'Authorization': `Bearer ${token}` } : {}
+        });
+        const data = await res.json();
+
+        document.getElementById('stat-total-consultations').textContent = data.total_consultations;
+        document.getElementById('stat-total-students').textContent = data.total_students;
+
+        // Render Chart 1: Phân bổ Đối tượng (Doughnut)
+        renderChart('chartUserGroups', 'doughnut', {
+          labels: (data.user_groups || []).map(d => d.name),
+          datasets: [{
+            data: (data.user_groups || []).map(d => d.value),
+            backgroundColor: ['#06b6d4', '#6366f1', '#10b981', '#f59e0b', '#64748b'],
+            borderColor: '#0f172a',
+            borderWidth: 2
+          }]
+        });
+
+        // Render Chart 2: Top Vị trí đề xuất (Bar)
+        renderChart('chartRoles', 'bar', {
+          labels: (data.top_recommended_roles || []).map(d => d.name),
+          datasets: [{
+            label: 'Số lượt đề xuất',
+            data: (data.top_recommended_roles || []).map(d => d.value),
+            backgroundColor: '#6366f1',
+            borderRadius: 8
+          }]
+        });
+
+        // Render Chart 3: Kỹ năng sẵn có (Bar ngang)
+        renderChart('chartSkills', 'bar', {
+          labels: (data.top_known_skills || []).map(d => d.name),
+          datasets: [{
+            label: 'Số người có kỹ năng',
+            data: (data.top_known_skills || []).map(d => d.value),
+            backgroundColor: '#06b6d4',
+            borderRadius: 8
+          }]
+        }, { indexAxis: 'y' });
+
+        // Render Chart 4: Thời gian học (Pie)
+        renderChart('chartLearningTime', 'pie', {
+          labels: (data.learning_time_distribution || []).map(d => d.name),
+          datasets: [{
+            data: (data.learning_time_distribution || []).map(d => d.value),
+            backgroundColor: ['#f59e0b', '#ec4899', '#3b82f6', '#64748b'],
+            borderColor: '#0f172a',
+            borderWidth: 2
+          }]
+        });
+
+      } catch (err) {
+        console.error("Lỗi tải metrics admin:", err);
+      }
+    }
+
+    function renderChart(canvasId, type, data, options = {}) {
+      if (chartInstances[canvasId]) {
+        chartInstances[canvasId].destroy();
+      }
+      const ctx = document.getElementById(canvasId).getContext('2d');
+      chartInstances[canvasId] = new Chart(ctx, {
+        type: type,
+        data: data,
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: {
+            legend: { 
+              position: 'bottom', 
+              labels: { 
+                boxWidth: 12, 
+                color: '#94a3b8',
+                font: { size: 10, family: 'Plus Jakarta Sans' } 
+              } 
+            }
+          },
+          scales: (type === 'bar') ? {
+            x: { ticks: { color: '#94a3b8' }, grid: { color: 'rgba(51, 65, 85, 0.3)' } },
+            y: { ticks: { color: '#94a3b8' }, grid: { color: 'rgba(51, 65, 85, 0.3)' } }
+          } : {},
+          ...options
+        }
+      });
+    }
+
+    // Auth Modal Logic
+    function toggleAuthModal() {
+      document.getElementById('auth-modal').classList.toggle('hidden');
+    }
+
+    function toggleAuthMode() {
+      isRegisterMode = !isRegisterMode;
+      document.getElementById('auth-modal-title').textContent = isRegisterMode ? 'Đăng Ký Tài Khoản' : 'Đăng Nhập Tài Khoản';
+      document.getElementById('auth-submit-btn').textContent = isRegisterMode ? 'Đăng Ký' : 'Đăng Nhập';
+      document.getElementById('auth-name-group').classList.toggle('hidden', !isRegisterMode);
+      document.getElementById('auth-toggle-btn').textContent = isRegisterMode ? 'Đã có tài khoản? Đăng nhập' : 'Chưa có tài khoản? Đăng ký ngay';
+    }
+
+    async function handleAuthSubmit(e) {
+      e.preventDefault();
+      const email = document.getElementById('auth-email').value.trim();
+      const password = document.getElementById('auth-password').value.trim();
+      const fullName = document.getElementById('auth-name').value.trim();
+
+      const endpoint = isRegisterMode ? `${API_BASE}/auth/register` : `${API_BASE}/auth/login`;
+      const body = isRegisterMode 
+        ? { email, password, full_name: fullName, role: 'student' }
+        : { email, password };
+
+      try {
+        const res = await fetch(endpoint, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(body)
+        });
+
+        const data = await res.json();
+        if (!res.ok) throw new Error(data.detail || 'Thao tác thất bại');
+
+        localStorage.setItem('token', data.access_token);
+        currentUser = data;
+        document.getElementById('auth-btn').textContent = `Chào, ${data.full_name}`;
+        toggleAuthModal();
+        alert(isRegisterMode ? "Đăng ký thành công!" : "Đăng nhập thành công!");
+      } catch (err) {
+        alert("Lỗi xác thực: " + err.message);
+      }
+    }
+
+    // Check saved API key on init
+    window.addEventListener('DOMContentLoaded', () => {
+      const savedKey = localStorage.getItem('gemini_api_key');
+      if (savedKey) {
+        const btn = document.getElementById('key-nav-btn');
+        btn.innerHTML = '✅ Đã Lưu API Key';
+        btn.className = 'px-3.5 py-1.5 rounded-xl text-xs font-bold text-emerald-300 bg-emerald-950/60 border border-emerald-500/40 transition shadow-xs';
+      }
+      renderSuggestions();
+    });
+  </script>
+</body>
+</html>
